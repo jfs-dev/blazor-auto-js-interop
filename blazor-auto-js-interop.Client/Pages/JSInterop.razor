@@ -1,0 +1,119 @@
+﻿@page "/js-interop"
+@inject IJSRuntime JS
+@rendermode InteractiveAuto
+
+<PageTitle>JSInterop</PageTitle>
+
+<div class="row g-3">
+    <div class="col-md-6">
+        <label for="inputCep" class="form-label">CEP</label>
+        <input @ref="CepInput" placeholder="_____-___" type="text" id="inputCep" class="form-control" aria-describedby="inputCepHelpBlock">
+        <div id="inputCepHelpBlock" class="form-text">
+            99999-999
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-md-6">
+        <label for="inputCpf" class="form-label">CPF</label>
+        <input @ref="CpfInput" placeholder="___.___.___-__" type="text" id="inputCpf" class="form-control" aria-describedby="inputCpfHelpBlock">
+        <div id="inputCpfHelpBlock" class="form-text">
+            999.999.999-99
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-md-6">
+        <label for="inputCnpj" class="form-label">CNPJ</label>
+        <input @ref="CnpjInput" placeholder="__.___.___/____-__" type="text" id="inputCnpj" class="form-control" aria-describedby="inputCnpjHelpBlock">
+        <div id="inputCpfHelpBlock" class="form-text">
+            99.999.999/9999-99
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputCnpjAlfanumerico" class="form-label">CNPJ - Alfanumérico</label>
+        <input @ref="CnpjAlfanumericoInput" placeholder="__.___.___/____-__" type="text" id="inputCnpjAlfanumerico" class="form-control" aria-describedby="inputCnpjAlfanumericoHelpBlock">
+        <div id="inputCnpjAlfanumericoHelpBlock" class="form-text">
+            AA.AAA.AAA/AAAA-99
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-md-6">
+        <label for="inputTelefone" class="form-label">Telefone</label>
+        <input @ref="TelefoneInput" placeholder="(__) ____-____" type="text" id="inputTelefone" class="form-control" aria-describedby="inputTelefoneHelpBlock">
+        <div id="inputTelefoneHelpBlock" class="form-text">
+            (99) 9999-9999
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputCelular" class="form-label">Celular</label>
+        <input @ref="CelularInput" placeholder="(__) _____-____" type="text" id="inputCelular" class="form-control" aria-describedby="inputCelularHelpBlock">
+        <div id="inputCelularHelpBlock" class="form-text">
+            (99) 99999-9999
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-md-6">
+        <label for="inputPlaca" class="form-label">Placa</label>
+        <input @ref="PlacaInput" placeholder="___-____" type="text" id="inputPlaca" class="form-control" aria-describedby="inputPlacaHelpBlock">
+        <div id="inputPlacaHelpBlock" class="form-text">
+            LLL–9999
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <label for="inputPlacaMercosul" class="form-label">Placa - Mercosul</label>
+        <input @ref="PlacaMercosulInput" placeholder="_______" type="text" id="inputPlacaMercosul" class="form-control" aria-describedby="inputPlacaMercosulHelpBlock">
+        <div id="inputPlacaMercosulHelpBlock" class="form-text">
+            LLL9L99
+        </div>
+    </div>
+</div>
+
+<div class="row g-3 mt-0">
+    <div class="col-md-6">
+        <label for="inputValorMonetario" class="form-label">Valor - Monetário</label>
+        <input @ref="ValorMonetarioInput" placeholder="0,00" type="text" id="inputValorMonetario" class="form-control text-end" aria-describedby="inputValorMonetarioHelpBlock">
+        <div id="inputValorMonetarioHelpBlock" class="form-text">
+            999.999.999,99
+        </div>
+    </div>
+</div>
+
+@code {
+    private ElementReference CepInput { get; set; }
+    private ElementReference CpfInput { get; set; }
+    private ElementReference CnpjInput { get; set; }
+    private ElementReference CnpjAlfanumericoInput { get; set; }
+    private ElementReference TelefoneInput { get; set; }
+    private ElementReference CelularInput { get; set; }
+    private ElementReference PlacaInput { get; set; }
+    private ElementReference PlacaMercosulInput { get; set; }
+    private ElementReference ValorMonetarioInput { get; set; }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JS.InvokeVoidAsync("import", "./Pages/JSInterop.razor.js");
+            
+            await JS.InvokeVoidAsync("applyCepMask", CepInput);
+            await JS.InvokeVoidAsync("applyCpfMask", CpfInput);
+            await JS.InvokeVoidAsync("applyCnpjMask", CnpjInput);
+            await JS.InvokeVoidAsync("applyCnpjAlfanumericoMask", CnpjAlfanumericoInput);
+            await JS.InvokeVoidAsync("applyTelefoneMask", TelefoneInput);
+            await JS.InvokeVoidAsync("applyCelularMask", CelularInput);
+            await JS.InvokeVoidAsync("applyPlacaMask", PlacaInput);
+            await JS.InvokeVoidAsync("applyPlacaMercosulMask", PlacaMercosulInput);
+            await JS.InvokeVoidAsync("applyValorMonetarioMask", ValorMonetarioInput);
+        }
+    }    
+}
